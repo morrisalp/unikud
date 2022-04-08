@@ -1,2 +1,4 @@
+[core]
+    autostage = true
 ['remote "origin"']
     url = https://dagshub.com/morrisalp/unikud.dvc

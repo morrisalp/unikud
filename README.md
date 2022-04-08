@@ -8,3 +8,4 @@ Sources of data:
 
 * [Hebrew Wikisource](https://he.wikisource.org/) (ויקיטקסט)
 * Public-domain works from the [Ben-Yehuda Project](https://benyehuda.org/)
+* [Hebrew Wikipedia](https://he.wikipedia.org/)
