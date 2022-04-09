@@ -1,0 +1,15 @@
+schema: '2.0'
+stages:
+  preprocessing:
+    cmd: python src/preprocessing/preprocess_data.py
+    deps:
+    - path: data/raw/he_wiktionary-male_haser.csv
+      md5: 8d50c086c9429ac20bee0341e8008df4
+      size: 935855
+    - path: data/raw/wikisource-haser_male.csv
+      md5: 3f3241cbc095abca6b3f6708428d0548
+      size: 1503700
+    outs:
+    - path: data/processed/male_haser.csv
+      md5: dca3dc4a1b34b5e21a04aefa1d7bfbb5
+      size: 2594490
