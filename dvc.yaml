@@ -2,7 +2,10 @@ stages:
   preprocessing:
     cmd: python src/preprocessing/preprocess_data.py
     deps:
+    - data/raw/ben-yehuda.txt
     - data/raw/he_wiktionary-male_haser.csv
+    - data/raw/he_wp-nikud.txt
     - data/raw/wikisource-haser_male.csv
     outs:
     - data/processed/male_haser.csv
+    - data/processed/nikud.csv

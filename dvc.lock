@@ -3,9 +3,15 @@ stages:
   preprocessing:
     cmd: python src/preprocessing/preprocess_data.py
     deps:
+    - path: data/raw/ben-yehuda.txt
+      md5: 6a49c1c75bdf1f888de4b09d15af0fac
+      size: 119515543
     - path: data/raw/he_wiktionary-male_haser.csv
       md5: 8d50c086c9429ac20bee0341e8008df4
       size: 935855
+    - path: data/raw/he_wp-nikud.txt
+      md5: 8d34af7b5fc12793ac6f6b86c22603e0
+      size: 10539837
     - path: data/raw/wikisource-haser_male.csv
       md5: 3f3241cbc095abca6b3f6708428d0548
       size: 1503700
@@ -13,3 +19,6 @@ stages:
     - path: data/processed/male_haser.csv
       md5: dca3dc4a1b34b5e21a04aefa1d7bfbb5
       size: 2594490
+    - path: data/processed/nikud.csv
+      md5: 2afade05fe26c0e7bc8261c29d7cdf4d
+      size: 73747812
