@@ -1,6 +1,6 @@
 stages:
   preprocessing:
-    cmd: python src/preprocessing/preprocess_data.py
+    cmd: python src/preprocess_data.py
     deps:
     - data/raw/ben-yehuda.txt
     - data/raw/he_wiktionary-male_haser.csv

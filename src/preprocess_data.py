@@ -1,31 +1,10 @@
 import pandas as pd
 import unicodedata
 from tqdm.auto import tqdm
+from hebrew_utils import strip_nikud, text_contains_nikud, text_contains_abg, ABG
 
 DATA_DIR = './data'
 
-NIKKUD = {x for x in ''' ֱ  ֲ  ֳ  ִ 
- ֵ  ֶ  ַ  ָ  ֹ 
- ֻ  ּ  ֿ  ׁ  ׂ עְ''' if x not in ' \nע'}
-ABG = set('אבגדהוזחטיכךלמםנןסעפףצץקרשת')
-CHARSET = NIKKUD | ABG
-
-def strip_nikkud(s):
-    if type(s) is str:
-        out = s
-        for N in NIKKUD:
-            out = out.replace(N, '')
-        return out
-    out = s.copy() # pd Series
-    for N in NIKKUD:
-        out = out.str.replace(N, '')
-    return out
-
-def text_contains_nikkud(text):
-    return len(set(text) & NIKKUD) > 0
-
-def text_contains_abg(text):
-    return len(set(text) & ABG) > 0
 
 def nikud_slice(text, patience=1):
     words = text.split()
@@ -33,7 +12,7 @@ def nikud_slice(text, patience=1):
     counter = 0
     on = False
     for w in words:
-        if text_contains_nikkud(w) or not text_contains_abg(w):
+        if text_contains_nikud(w) or not text_contains_abg(w):
             on = True
             if len(out) > 0:
                 out += ' '
@@ -105,7 +84,7 @@ def preprocess_male_haser():
 
     word_df = df.set_index('source').apply(lambda x: x.str.split().explode()).reset_index()
 
-    stripped = word_df.nikud.apply(strip_nikkud)
+    stripped = word_df.nikud.apply(strip_nikud)
 
     word_df = word_df[
         ~(stripped.str.endswith('ו') ^ word_df.male.str.endswith('ו')) &
@@ -148,7 +127,7 @@ def preprocess_nikud_data(nikud_ratio_thresh=0.8, n_words_thresh=3, max_words=50
     df.text = df.text.str.replace('\u200f', '').str.replace('\xa0', '').str.strip()
 
     tqdm.pandas(desc='Stripping nikud')
-    stripped = df.text.progress_apply(strip_nikkud)
+    stripped = df.text.progress_apply(strip_nikud)
 
     ratios = stripped.str.len() / df.text.str.len()
     n_words = df.text.str.split().str.len()
@@ -182,7 +161,7 @@ def preprocess_nikud_data(nikud_ratio_thresh=0.8, n_words_thresh=3, max_words=50
 
     def rm_last_no_nikud(text):
         last_word = text.split()[-1]
-        if last_word != strip_nikkud(last_word):
+        if last_word != strip_nikud(last_word):
             return text
         return text[:-len(last_word)].strip()
     

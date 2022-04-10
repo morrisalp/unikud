@@ -1,7 +1,7 @@
 schema: '2.0'
 stages:
   preprocessing:
-    cmd: python src/preprocessing/preprocess_data.py
+    cmd: python src/preprocess_data.py
     deps:
     - path: data/raw/ben-yehuda.txt
       md5: 6a49c1c75bdf1f888de4b09d15af0fac
@@ -17,8 +17,8 @@ stages:
       size: 1503700
     outs:
     - path: data/processed/male_haser.csv
-      md5: dca3dc4a1b34b5e21a04aefa1d7bfbb5
+      md5: c76a14243fd7362cf01adc8d22480568
       size: 2594490
     - path: data/processed/nikud.csv
-      md5: 2afade05fe26c0e7bc8261c29d7cdf4d
-      size: 73747812
+      md5: 9d736e31c15c9d34ea826feef43fb4a6
+      size: 73748363
