@@ -1,4 +1,5 @@
 import pandas as pd
+from tqdm.auto import tqdm
 
 DATA_DIR = './data'
 
@@ -17,6 +18,48 @@ def strip_nikkud(s):
     out = s.copy() # pd Series
     for N in NIKKUD:
         out = out.str.replace(N, '')
+    return out
+
+def text_contains_nikkud(text):
+    return len(set(text) & NIKKUD) > 0
+
+def text_contains_abg(text):
+    return len(set(text) & ABG) > 0
+
+def nikud_slice(text, patience=1):
+    words = text.split()
+    out = ''
+    counter = 0
+    on = False
+    for w in words:
+        if text_contains_nikkud(w) or not text_contains_abg(w):
+            on = True
+            if len(out) > 0:
+                out += ' '
+            out += w
+        elif on:
+            counter += 1
+            if counter <= patience:
+                out += ' ' + w
+            else:
+                on = False
+                counter = 0
+                yield out
+                out = ''
+    if out != '':
+        yield out
+
+def count_max_abg_in_row(text):
+    out = 0
+    counter = 0
+    on = False
+    for char in text:
+        if char in ABG:
+            on = True
+            counter += 1
+        else:
+            out = max(out, counter)
+            counter = 0
     return out
 
 def preprocess_male_haser():
@@ -66,5 +109,80 @@ def preprocess_male_haser():
 
     print('Done (male-haser)')
 
+def preprocess_nikud_data(nikud_ratio_thresh=0.8, n_words_thresh=3, max_words=50, max_abg_in_row=3):
+    print('Preprocessing nikud data...')
+
+    by_series = pd.read_csv(f'{DATA_DIR}/raw/ben-yehuda.txt', header=None)[0]
+    wp_series = pd.read_csv(f'{DATA_DIR}/raw/he_wp-nikud.txt', header=None)[0]
+    df = pd.DataFrame({
+        'text': pd.concat([by_series, wp_series]),
+        'source': ['BY'] * by_series.shape[0] + ['WP'] * wp_series.shape[0]
+    })
+    del by_series
+    del wp_series
+
+    df = pd.DataFrame([
+        {
+            'text': S,
+            'source': row.source
+        }
+        for row in tqdm(
+            df.sample(df.shape[0]).itertuples(),
+            # ^ random shuffle makes progress bar more accurate
+            total=df.shape[0], desc='Slicing nikud')
+        for S in nikud_slice(row.text)
+    ])
+
+    df.text = df.text.str.replace('\u200f', '').str.replace('\xa0', '').str.strip()
+
+    tqdm.pandas(desc='Stripping nikud')
+    stripped = df.text.progress_apply(strip_nikkud)
+
+    ratios = stripped.str.len() / df.text.str.len()
+    n_words = df.text.str.split().str.len()
+
+    mask = (ratios < nikud_ratio_thresh) & (n_words > n_words_thresh)
+
+    def split_text(text):
+        words = text.split(' ')
+        out_lists = [[]]
+        for w in words:
+            if len(out_lists[-1]) >= max_words:
+                out_lists.append([])
+            out_lists[-1].append(w)
+        return [
+            ' '.join(L) for L in out_lists
+        ]
+    
+    df = pd.DataFrame([
+        {
+            'text': T,
+            'source': row.source
+        }
+        for row in tqdm(df[mask].itertuples(), total=mask.sum(), desc='Splitting large texts')
+        for T in split_text(row.text)
+    ])
+
+    tqdm.pandas(desc='Filtering missing nikkud')
+    n_abg_in_row = df.text.progress_apply(count_max_abg_in_row)
+
+    df = df[n_abg_in_row <= max_abg_in_row].copy()
+
+    def rm_last_no_nikud(text):
+        last_word = text.split()[-1]
+        if last_word != strip_nikkud(last_word):
+            return text
+        return text[:-len(last_word)].strip()
+    
+    tqdm.pandas(desc='Removing final words missing nikud')
+    df.text = df.text.progress_apply(rm_last_no_nikud)
+    df = df[df.text != ''].copy()
+
+    df.to_csv(f'{DATA_DIR}/processed/nikud.csv', index=False)
+
+    print('Done (nikud)')
+
+
 if __name__ == '__main__':
     preprocess_male_haser()
+    preprocess_nikud_data()
