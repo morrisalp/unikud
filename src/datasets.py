@@ -1,7 +1,7 @@
+import torch
 from torch.utils.data import Dataset
 import pandas as pd
 from hebrew_utils import NIKUD, strip_nikud, YUD, VAV, YV
-from tqdm.auto import tqdm
 
 def make_male_labels(text_n, text_non):
     out = ''
@@ -26,11 +26,10 @@ def make_male_labels(text_n, text_non):
 
 class MaleHaserDataset(Dataset):
 
-    def __init__(self, fn='./data/processed/male_haser.csv'):
+    def __init__(self, fn='./data/processed/male_haser.csv', tokenizer=None):
         self.df = pd.read_csv(fn)
 
-        tqdm.pandas(desc='Preparing male-haser labels')
-        self.df['labels'] = self.df.progress_apply(lambda row: make_male_labels(row['nikud'], row['male']), axis=1)
+        self.df['labels'] = self.df.apply(lambda row: make_male_labels(row['nikud'], row['male']), axis=1)
         self.df = self.df[~self.df.labels.str.contains('?', regex=False)].copy()
 
     def __len__(self):
@@ -40,3 +39,30 @@ class MaleHaserDataset(Dataset):
         row = self.df.iloc[idx]
 
         return row.nikud, row.labels
+
+def labels2tensor(labels, maxlen):
+    # labels: list or Series
+    padded = [
+        '0' + w + '0' * (maxlen - len(w) - 1)
+        for w in labels
+    ]
+    return torch.tensor([
+        [int(c) for c in p]
+        for p in padded
+    ])
+
+class MaleHaserCollator:
+
+    def __init__(self, tokenizer):
+        self.tokenizer = tokenizer
+
+    def collate(self, batch):
+        X = self.tokenizer(
+            [N for N, L in batch],
+            padding='longest',
+            truncation=True,
+            return_tensors='pt'
+        )
+        y = labels2tensor([L for N, L in batch], X.input_ids.size(1))
+        
+        return {**X, 'labels': y}
