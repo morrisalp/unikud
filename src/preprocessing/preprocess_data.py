@@ -1,4 +1,5 @@
 import pandas as pd
+import unicodedata
 from tqdm.auto import tqdm
 
 DATA_DIR = './data'
@@ -62,6 +63,11 @@ def count_max_abg_in_row(text):
             counter = 0
     return out
 
+def normalize(series):
+    tqdm.pandas(desc='Normalizing unicode')
+    return series.str.replace(r'\u05ba', '\u05b9', regex=True # "holam haser for vav" => holam
+        ).progress_apply(lambda x: unicodedata.normalize('NFC', x)) # splits combining forms (e.g. bet+dagesh)
+
 def preprocess_male_haser():
 
     print('Preprocessing male-haser data...')
@@ -77,6 +83,10 @@ def preprocess_male_haser():
 
     df = pd.concat([wiktionary_df, wikisource_df]).fillna('')
     del wiktionary_df, wikisource_df
+
+
+    df.nikud = normalize(df.nikud)
+    df.male = normalize(df.male)
 
     df.nikud = df.nikud.str.replace(r'\{.*\}', '', regex=True
         ).str.replace(r'\(.*\)', '', regex=True
@@ -120,6 +130,8 @@ def preprocess_nikud_data(nikud_ratio_thresh=0.8, n_words_thresh=3, max_words=50
     })
     del by_series
     del wp_series
+
+    df.text = normalize(df.text)
 
     df = pd.DataFrame([
         {
@@ -177,6 +189,9 @@ def preprocess_nikud_data(nikud_ratio_thresh=0.8, n_words_thresh=3, max_words=50
     tqdm.pandas(desc='Removing final words missing nikud')
     df.text = df.text.progress_apply(rm_last_no_nikud)
     df = df[df.text != ''].copy()
+
+    # replace "holam haser for vav" with normal holam
+    df.text = df.text.str.replace(r'\u05ba', '\u05b9', regex=True)
 
     df.to_csv(f'{DATA_DIR}/processed/nikud.csv', index=False)
 
