@@ -29,3 +29,7 @@ Sources of data:
   * [Hebrew Wikipedia](https://he.wikipedia.org/)
   * [Hebrew Wikisource](https://he.wikisource.org/) (ויקיטקסט)
   * [Hebrew Wiktionary](https://he.wiktionary.org/) (ויקימילון)
+
+To preprocess data, run:
+
+* `dvc repro preprocessing`
