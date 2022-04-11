@@ -4,7 +4,13 @@ If you are accessing this repo via GitHub, please see the [project page on DAGSH
 
 # Requirements
 
-Conda is required for running UNIKUD. With Conda, you may create and activate the UNIKUD environment with:
+First install:
+* Conda
+* Rust compiler:
+  * `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
+  * Reopen shell or run `source $HOME/.cargo/env`
+
+Then create and activate the UNIKUD environment with:
 
 * `conda env create -f environment.yml`
 * `conda activate unikud`
