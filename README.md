@@ -9,6 +9,8 @@ Conda is required for running UNIKUD. With Conda, you may create and activate th
 * `conda env create -f environment.yml`
 * `conda activate unikud`
 
+You may then download the required data files using DVC.
+
 # Data
 
 Sources of data:
