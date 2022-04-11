@@ -66,3 +66,21 @@ class MaleHaserCollator:
         y = labels2tensor([L for N, L in batch], X.input_ids.size(1))
         
         return {**X, 'labels': y}
+
+if __name__ == '__main__':
+    
+    from transformers import CanineTokenizer
+
+    tokenizer = CanineTokenizer.from_pretrained("google/canine-s")
+
+    m = MaleHaserDataset()
+    c = MaleHaserCollator(tokenizer)
+
+    I = iter(m)
+
+    batch = [next(I), next(I), next(I)]
+
+    out = c.collate(batch)
+    print(out)
+    for k in out:
+        print(k, out[k].shape)
