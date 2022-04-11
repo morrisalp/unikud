@@ -15,7 +15,10 @@ Then create and activate the UNIKUD environment with:
 * `conda env create -f environment.yml`
 * `conda activate unikud`
 
-You may then download the required data files using DVC.
+You may then download the required data files using DVC:
+
+* `dvc remote add origin https://dagshub.com/morrisalp/unikud.dvc`
+* `dvc pull -r origin`
 
 # Data
 
