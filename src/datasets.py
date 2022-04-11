@@ -1,3 +1,4 @@
+from random import random
 import torch
 from torch.utils.data import Dataset
 import pandas as pd
@@ -26,8 +27,19 @@ def make_male_labels(text_n, text_non):
 
 class MaleHaserDataset(Dataset):
 
-    def __init__(self, fn='./data/processed/male_haser.csv', tokenizer=None):
+    def __init__(self, fn='./data/processed/male_haser.csv', tokenizer=None, split=None, val_size=0.1):
         self.df = pd.read_csv(fn)
+        # random shuffle (with fixed seed) so val split is not biased:
+        self.df = self.df.sample(self.df.shape[0], random_state=0)
+
+        if split is not None:
+            assert split in ['train', 'val']
+            N_TRAIN = int(self.df.shape[0] * (1 - val_size))
+            N_VAL = self.df.shape[0] - N_TRAIN
+            if split == 'train':
+                self.df = self.df.head(N_TRAIN)
+            else:
+                self.df = self.df.tail(N_VAL)
 
         self.df['labels'] = self.df.apply(lambda row: make_male_labels(row['nikud'], row['male']), axis=1)
         self.df = self.df[~self.df.labels.str.contains('?', regex=False)].copy()
@@ -68,12 +80,13 @@ class MaleHaserCollator:
         return {**X, 'labels': y}
 
 if __name__ == '__main__':
-    
+
     from transformers import CanineTokenizer
 
     tokenizer = CanineTokenizer.from_pretrained("google/canine-s")
 
-    m = MaleHaserDataset()
+    m = MaleHaserDataset(split='val')
+    print('LEN:', len(m))
     c = MaleHaserCollator(tokenizer)
 
     I = iter(m)
