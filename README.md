@@ -2,6 +2,13 @@
 
 If you are accessing this repo via GitHub, please see the [project page on DAGSHub](https://dagshub.com/morrisalp/unikud) for data files, pipelines and more.
 
+# Requirements
+
+Conda is required for running UNIKUD. With Conda, you may create and activate the UNIKUD environment with:
+
+* `conda env create -f environment.yml`
+* `conda activate unikud`
+
 # Data
 
 Sources of data:

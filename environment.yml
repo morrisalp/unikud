@@ -1,0 +1,13 @@
+name: unikud
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - pip=22.0.4
+  - python=3.10.4
+  - pip:
+    - dvc==2.10.1
+    - pandas==1.4.0
+    - transformers==4.15.0
+    - torch==1.11.0
+    - tqdm==4.64.0
