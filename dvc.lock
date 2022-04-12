@@ -16,12 +16,12 @@ stages:
       md5: 3f3241cbc095abca6b3f6708428d0548
       size: 1503700
     - path: src/preprocess_data.py
-      md5: 015150cb4ed86bdda6ba8f40b568442d
-      size: 5673
+      md5: a8f0c0a0c16853e164256174c65be9ab
+      size: 5672
     outs:
-    - path: data/processed/male_haser.csv
+    - path: data/processed/ktiv_male.csv
       md5: 2e974ab9f7bba306921ddfbecae7277e
       size: 2594639
     - path: data/processed/nikud.csv
-      md5: 611f513582e085b92befe94a4ac13197
+      md5: d8a64b380cc8152fceea319f535b2b85
       size: 73741972

@@ -1,6 +1,6 @@
 from hebrew_utils import NIKUD, YUD, VAV
 
-class MaleHaserTask:
+class KtivMaleTask:
 
     def __init__(self, tokenizer, model, device='cpu'):
         self.tokenizer = tokenizer
@@ -37,14 +37,14 @@ class MaleHaserTask:
 #         self.model = model
 
 if __name__ == '__main__':
-    from models import MaleHaserModel
+    from models import KtivMaleModel
     from transformers import CanineTokenizer
 
     tokenizer = CanineTokenizer.from_pretrained("google/canine-c")
-    model = MaleHaserModel.from_pretrained("google/canine-c", num_labels=3)
+    model = KtivMaleModel.from_pretrained("google/canine-c", num_labels=3)
 
     print('Loading task')
-    mh_task = MaleHaserTask(tokenizer, model)
+    mh_task = KtivMaleTask(tokenizer, model)
     print('Task loaded')
     text = 'אָבִיב הוֹלֵךְ וּבָא אִתּוֹ רַק אֹשֶׁר וְשִׂמְחָה'
     print(text)

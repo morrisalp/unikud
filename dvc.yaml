@@ -8,5 +8,5 @@ stages:
     - data/raw/wikisource-haser_male.csv
     - src/preprocess_data.py
     outs:
-    - data/processed/male_haser.csv
+    - data/processed/ktiv_male.csv
     - data/processed/nikud.csv

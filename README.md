@@ -32,4 +32,11 @@ Sources of data:
 
 To preprocess data, run:
 
-* `dvc repro preprocessing`
+# Training
+
+To reproduce the training pipeline, perform the following steps:
+
+1. Preprocess data:
+  * `dvc repro preprocessing`
+<!-- 2. Train ktiv male model:
+  * `dvc repro train-ktiv-male` -->

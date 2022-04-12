@@ -94,7 +94,7 @@ def preprocess_male_haser():
         (stripped.str.len() <= word_df.male.str.len())
     ]
 
-    word_df.to_csv(f'{DATA_DIR}/processed/male_haser.csv', index=False)
+    word_df.to_csv(f'{DATA_DIR}/processed/ktiv_male.csv', index=False)
 
     print('Done (male-haser)')
 

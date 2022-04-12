@@ -3,7 +3,7 @@ from transformers import CanineModel, CanineForTokenClassification, CaninePreTra
 from transformers.modeling_outputs import TokenClassifierOutput
 from hebrew_utils import NIKUD
 
-class MaleHaserModel(CanineForTokenClassification):
+class KtivMaleModel(CanineForTokenClassification):
     
     def __init__(self, config):
         assert hasattr(config, 'num_labels') and config.num_labels == 3
@@ -70,5 +70,5 @@ class UnikudModel(CaninePreTrainedModel):
 
 if __name__ == '__main__':
 
-    mh_model = MaleHaserModel.from_pretrained("google/canine-c", num_labels=3)
+    mh_model = KtivMaleModel.from_pretrained("google/canine-c", num_labels=3)
     u_model = UnikudModel.from_pretrained("google/canine-c")

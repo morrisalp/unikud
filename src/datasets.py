@@ -25,9 +25,9 @@ def make_male_labels(text_n, text_non):
                             return '?'
     return out
 
-class MaleHaserDataset(Dataset):
+class KtivMaleDataset(Dataset):
 
-    def __init__(self, fn='./data/processed/male_haser.csv', tokenizer=None, split=None, val_size=0.1):
+    def __init__(self, fn='./data/processed/ktiv_male.csv', tokenizer=None, split=None, val_size=0.1):
         self.df = pd.read_csv(fn)
         # random shuffle (with fixed seed) so val split is not biased:
         self.df = self.df.sample(self.df.shape[0], random_state=0)
@@ -63,7 +63,7 @@ def labels2tensor(labels, maxlen):
         for p in padded
     ])
 
-class MaleHaserCollator:
+class KtivMaleCollator:
 
     def __init__(self, tokenizer):
         self.tokenizer = tokenizer
@@ -85,9 +85,9 @@ if __name__ == '__main__':
 
     tokenizer = CanineTokenizer.from_pretrained("google/canine-s")
 
-    m = MaleHaserDataset(split='val')
+    m = KtivMaleDataset(split='val')
     print('LEN:', len(m))
-    c = MaleHaserCollator(tokenizer)
+    c = KtivMaleCollator(tokenizer)
 
     I = iter(m)
 

@@ -1,14 +1,14 @@
 from dataclasses import dataclass, field
 from typing import Optional
 import argparse
-from datasets import MaleHaserDataset, MaleHaserCollator
-from models import MaleHaserModel
+from datasets import KtivMaleDataset, KtivMaleCollator
+from models import KtivMaleModel
 from transformers import CanineTokenizer, TrainingArguments, Trainer
 import torch
 
 def parse_arguments():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--output_dir', default='models/male_haser', help='Save directory for model')
+    parser.add_argument('--output_dir', default='models/ktiv_male', help='Save directory for model')
     parser.add_argument('--num_train_epochs', default=3, help='Number of train epochs')
     parser.add_argument('--per_device_train_batch_size', default=32, help='Train batch size')
     parser.add_argument('--per_device_eval_batch_size', default=32, help='Validation batch size')
@@ -31,15 +31,15 @@ def main():
     training_args = TrainingArguments(**vars(args)) # vars: Namespace to dict
 
     print('Loading data...')
-    train_dataset = MaleHaserDataset(split='train')
-    eval_dataset = MaleHaserDataset(split='val')
+    train_dataset = KtivMaleDataset(split='train')
+    eval_dataset = KtivMaleDataset(split='val')
 
     print('Loading tokenizer...')
     tokenizer = CanineTokenizer.from_pretrained("google/canine-c")
-    collator = MaleHaserCollator(tokenizer)
+    collator = KtivMaleCollator(tokenizer)
 
     print('Loading model...')
-    model = MaleHaserModel.from_pretrained("google/canine-c", num_labels=3)
+    model = KtivMaleModel.from_pretrained("google/canine-c", num_labels=3)
 
     print('Creating trainer...')
     trainer = Trainer(
