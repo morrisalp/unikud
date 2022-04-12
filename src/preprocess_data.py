@@ -49,7 +49,7 @@ def normalize(series):
 
 def preprocess_male_haser():
 
-    print('Preprocessing male-haser data...')
+    print('Preprocessing ktiv male data...')
 
     wiktionary_df = pd.read_csv(f'{DATA_DIR}/raw/he_wiktionary-male_haser.csv'
                             ).drop(columns='haser')
@@ -96,7 +96,7 @@ def preprocess_male_haser():
 
     word_df.to_csv(f'{DATA_DIR}/processed/ktiv_male.csv', index=False)
 
-    print('Done (male-haser)')
+    print('Done (ktiv male)')
 
 def preprocess_nikud_data(nikud_ratio_thresh=0.8, n_words_thresh=3, max_words=50, max_abg_in_row=3):
     print('Preprocessing nikud data...')
