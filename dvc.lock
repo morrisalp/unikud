@@ -1,0 +1,27 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/preprocess_data.py
+    deps:
+    - path: data/raw/ben-yehuda.txt
+      md5: 6a49c1c75bdf1f888de4b09d15af0fac
+      size: 119515543
+    - path: data/raw/he_wiktionary-male_haser.csv
+      md5: 8d50c086c9429ac20bee0341e8008df4
+      size: 935855
+    - path: data/raw/he_wp-nikud.txt
+      md5: 8d34af7b5fc12793ac6f6b86c22603e0
+      size: 10539837
+    - path: data/raw/wikisource-haser_male.csv
+      md5: 3f3241cbc095abca6b3f6708428d0548
+      size: 1503700
+    - path: src/preprocess_data.py
+      md5: 015150cb4ed86bdda6ba8f40b568442d
+      size: 5673
+    outs:
+    - path: data/processed/male_haser.csv
+      md5: 2e974ab9f7bba306921ddfbecae7277e
+      size: 2594639
+    - path: data/processed/nikud.csv
+      md5: 611f513582e085b92befe94a4ac13197
+      size: 73741972
