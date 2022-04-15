@@ -16,12 +16,26 @@ stages:
       md5: 3f3241cbc095abca6b3f6708428d0548
       size: 1503700
     - path: src/preprocess_data.py
-      md5: a8f0c0a0c16853e164256174c65be9ab
-      size: 5672
+      md5: 14784ef3904d7696809ecf74280607c4
+      size: 5670
     outs:
     - path: data/processed/ktiv_male.csv
       md5: 2e974ab9f7bba306921ddfbecae7277e
       size: 2594639
     - path: data/processed/nikud.csv
-      md5: d8a64b380cc8152fceea319f535b2b85
+      md5: 47b0ed9af1cc818cb964027d5240fbd2
       size: 73741972
+  train-ktiv-male:
+    cmd: python src/train_ktiv_male.py
+    deps:
+    - path: data/processed/ktiv_male.csv
+      md5: 2e974ab9f7bba306921ddfbecae7277e
+      size: 2594639
+    - path: src/train_ktiv_male.py
+      md5: ce1710c02019cc69eceab489df809dcc
+      size: 2507
+    outs:
+    - path: models/ktiv_male
+      md5: 65b5e32a01a68c53a0cb8c2b2590c78f.dir
+      size: 4742084932
+      nfiles: 21
