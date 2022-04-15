@@ -1,4 +1,5 @@
 from hebrew_utils import NIKUD, YUD, VAV
+from tqdm.auto import tqdm
 
 class KtivMaleTask:
 
@@ -8,18 +9,14 @@ class KtivMaleTask:
 
         self.device = device
 
-    def nikud2male(self, text):
-        """
-        text: Hebrew text with nikud
-        returns: Hebrew text in ktiv male without nikud
-        """
-        X = self.tokenizer(text, return_tensors='pt')
+    def _nikud2male_word(self, word):
+        X = self.tokenizer(word, return_tensors='pt')
         X = X.to(self.device)
         preds = self.model(**X).logits.argmax(-1)[0].cpu().numpy()
         
         output = ''
         
-        for c, L in zip(text, preds[1:]):
+        for c, L in zip(word, preds[1:]):
             if L == 1:
                 output += YUD
             if L == 2:
@@ -28,6 +25,18 @@ class KtivMaleTask:
                 output += c
         
         return output
+
+    def nikud2male(self, text, split=False, pbar=False):
+        """
+        text: Hebrew text with nikud
+        returns: Hebrew text in ktiv male without nikud
+        """
+        words = text.split(' ') if split else [text]
+        outputs = [
+            self._nikud2male_word(word)
+            for word in (tqdm(words) if pbar else words)
+        ]
+        return ' '.join(outputs)
 
 
 # class NikudTask:
@@ -48,4 +57,4 @@ if __name__ == '__main__':
     print('Task loaded')
     text = 'אָבִיב הוֹלֵךְ וּבָא אִתּוֹ רַק אֹשֶׁר וְשִׂמְחָה'
     print(text)
-    print(km_task.nikud2male(text))
+    print(km_task.nikud2male(text, split=True, pbar=True))
