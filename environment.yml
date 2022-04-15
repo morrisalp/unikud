@@ -8,6 +8,7 @@ dependencies:
   - pip:
     - dvc==2.10.1
     - mlflow==1.25.1
+    - numpy==1.19.5
     - pandas==1.4.0
     - transformers==4.15.0
     - torch==1.11.0
