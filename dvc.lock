@@ -32,10 +32,10 @@ stages:
       md5: 2e974ab9f7bba306921ddfbecae7277e
       size: 2594639
     - path: src/train_ktiv_male.py
-      md5: ce1710c02019cc69eceab489df809dcc
-      size: 2507
+      md5: ff19709e94b8871a758d739658206ae8
+      size: 2646
     outs:
     - path: models/ktiv_male
-      md5: 65b5e32a01a68c53a0cb8c2b2590c78f.dir
-      size: 4742084932
-      nfiles: 21
+      md5: 96c4c3f9c72286a6541d6ee8ce421564.dir
+      size: 528576758
+      nfiles: 3
