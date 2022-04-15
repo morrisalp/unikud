@@ -55,7 +55,7 @@ class KtivMaleTask:
         for i, word in enumerate(batch):
             yield self._nikud2male_word(word, logits[i], **kwargs)
 
-    def nikud2male(self, text, split=False, pbar=False, sample=False, sample_thresh=0.1, batch_size=32):
+    def nikud2male(self, text, split=False, pbar=False, sample=False, sample_thresh=0.1, batch_size=64):
         """
         text: Hebrew text with nikud
         returns: Hebrew text in ktiv male without nikud

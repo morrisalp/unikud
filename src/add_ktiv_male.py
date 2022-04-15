@@ -9,6 +9,21 @@ MODEL_FN =  'models/ktiv_male/latest'
 DATA_FN = 'data/processed/nikud.csv'
 SAVE_FN = 'data/processed/nikud_with_ktiv_male.csv'
 
+def combined_text_gen(df, max_len = 2000):
+    # note: max_len must be less than 2048 (max input length of model)
+    # and should be somewhat smaller to account for added characters in ktiv male
+    out = ''
+    for text in df.text:
+        if len(out) + len(text) + 1 <= max_len:
+            if out != '':
+                out += '\n'
+            out += text
+        else:
+            yield out
+            out = text
+    if out != '':
+        yield out
+
 def main():
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -28,13 +43,17 @@ def main():
     print('Creating task...')
     task = KtivMaleTask(tokenizer, model, device=device)
 
+    print('Combining texts into larger units...')
+    texts = pd.Series(t for t in tqdm(combined_text_gen(df)))
+    del df
+    
     print('Adding ktiv male to text...')
     tqdm.pandas(desc='Generating ktiv male')
-    df.text = df.text.progress_apply(lambda text: task.nikud2male(text, split=True))
+    texts = texts.progress_apply(lambda text: task.nikud2male(text, split=True))
 
     
     print(f'Saving to: {SAVE_FN}')
-    df.to_csv(SAVE_FN, index=False)
+    texts.to_csv(SAVE_FN, index=False)
 
 
 if __name__ == '__main__':
