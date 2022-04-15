@@ -39,7 +39,7 @@ To reproduce the training pipeline, perform the following steps:
 
 1. Preprocess data:
   * `dvc repro preprocessing`
-<!-- 2. Train ktiv male model:
-  * `dvc repro train-ktiv-male` -->
+2. Train ktiv male model:
+  * `dvc repro train-ktiv-male`
 
 Training steps will automatically log to MLflow (via the Huggingface Trainer object) if the following environment variables are set: `MLFLOW_TRACKING_URI`, `MLFLOW_TRACKING_USERNAME`, `MLFLOW_TRACKING_PASSWORD`.
