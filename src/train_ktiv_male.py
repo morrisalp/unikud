@@ -8,17 +8,17 @@ import torch
 
 def parse_arguments():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--output_dir', default='models/ktiv_male', help='Save directory for model')
-    parser.add_argument('--num_train_epochs', default=3, help='Number of train epochs')
-    parser.add_argument('--per_device_train_batch_size', default=32, help='Train batch size')
-    parser.add_argument('--per_device_eval_batch_size', default=32, help='Validation batch size')
-    parser.add_argument('--save_strategy', default='epoch', help='Whether to save on every epoch ("epoch"/"no")')
-    parser.add_argument('--learning_rate', default=5e-5, help='Learning rate')
-    parser.add_argument('--adam_beta1', default=0.9, help='AdamW beta1 hyperparameter')
-    parser.add_argument('--adam_beta2', default=0.999, help='AdamW beta2 hyperparameter')
-    parser.add_argument('--weight_decay', default=0.0, help='Weight decay')
-    parser.add_argument('--evaluation_strategy', default='steps', help='How to validate (set to "no" for no validation)')
-    parser.add_argument('--eval_steps', default=500, help='Validate every N steps')
+    parser.add_argument('--output_dir', type=str, default='models/ktiv_male', help='Save directory for model')
+    parser.add_argument('--num_train_epochs', type=int, default=3, help='Number of train epochs')
+    parser.add_argument('--per_device_train_batch_size', type=int, default=32, help='Train batch size')
+    parser.add_argument('--per_device_eval_batch_size', type=int, default=32, help='Validation batch size')
+    parser.add_argument('--save_strategy', type=str, default='epoch', help='Whether to save on every epoch ("epoch"/"no")')
+    parser.add_argument('--learning_rate',  type=float, default=5e-5, help='Learning rate')
+    parser.add_argument('--adam_beta1', type=float, default=0.9, help='AdamW beta1 hyperparameter')
+    parser.add_argument('--adam_beta2', type=float, default=0.999, help='AdamW beta2 hyperparameter')
+    parser.add_argument('--weight_decay', type=float, default=0.0, help='Weight decay')
+    parser.add_argument('--evaluation_strategy', type=str, default='steps', help='How to validate (set to "no" for no validation)')
+    parser.add_argument('--eval_steps', type=int, default=500, help='Validate every N steps')
     return parser.parse_args()
 
 
