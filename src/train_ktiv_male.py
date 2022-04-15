@@ -14,7 +14,7 @@ def parse_arguments():
     parser.add_argument('--num_train_epochs', type=int, default=3, help='Number of train epochs')
     parser.add_argument('--per_device_train_batch_size', type=int, default=32, help='Train batch size')
     parser.add_argument('--per_device_eval_batch_size', type=int, default=32, help='Validation batch size')
-    parser.add_argument('--save_strategy', type=str, default='epoch', help='Whether to save on every epoch ("epoch"/"no")')
+    parser.add_argument('--save_strategy', type=str, default='no', help='Whether to save on every epoch ("epoch"/"no")')
     parser.add_argument('--learning_rate',  type=float, default=5e-5, help='Learning rate')
     parser.add_argument('--adam_beta1', type=float, default=0.9, help='AdamW beta1 hyperparameter')
     parser.add_argument('--adam_beta2', type=float, default=0.999, help='AdamW beta2 hyperparameter')
