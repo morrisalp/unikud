@@ -10,6 +10,11 @@ class KtivMaleTask:
         self.device = device
 
     def _nikud2male_word(self, word):
+        
+        if len(word) < 2:
+            return ''.join([c for c in word if c not in NIKUD])
+            # ^ Needed because model throws error when input is too small
+        
         X = self.tokenizer(word, return_tensors='pt')
         X = X.to(self.device)
         preds = self.model(**X).logits.argmax(-1)[0].cpu().numpy()
