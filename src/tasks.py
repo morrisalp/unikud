@@ -10,7 +10,7 @@ class KtivMaleTask:
 
         self.device = device
 
-    def _nikud2male_word(self, word, sample=False, sample_thresh=0.1):
+    def _nikud2male_word(self, word, logits, sample=False, sample_thresh=0.1):
         
         if len(word) < 2:
             return ''.join([c for c in word if c not in NIKUD])
@@ -48,15 +48,30 @@ class KtivMaleTask:
 
             return output
 
-    def nikud2male(self, text, split=False, pbar=False, sample=False, sample_thresh=0.1):
+    def _nikud2male_batch(self, batch, **kwargs):
+        X = self.tokenizer(batch, return_tensors='pt', padding=True, truncation=True).to(self.device)
+        logits = self.model(**X).logits.detach()
+        
+        for i, word in enumerate(batch):
+            yield self._nikud2male_word(word, logits[i], **kwargs)
+
+    def nikud2male(self, text, split=False, pbar=False, sample=False, sample_thresh=0.1, batch_size=32):
         """
         text: Hebrew text with nikud
         returns: Hebrew text in ktiv male without nikud
         """
         words = text.split(' ') if split else [text]
+        batches = [[]]
+        for word in words:
+            if len(batches[-1]) < batch_size:
+                batches[-1] += [word]
+            else:
+                batches += [[word]]
+        
         outputs = [
-            self._nikud2male_word(word, sample=sample, sample_thresh=sample_thresh)
-            for word in (tqdm(words) if pbar else words)
+            out
+            for batch in (tqdm(batches) if pbar else batches)
+            for out in self._nikud2male_batch(batch, sample=sample, sample_thresh=sample_thresh)
         ]
         return ' '.join(outputs)
 
