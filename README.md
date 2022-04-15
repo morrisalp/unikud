@@ -5,6 +5,7 @@ If you are accessing this repo via GitHub, please see the [project page on DAGSH
 # Requirements
 
 First install:
+
 * Conda
 * Rust compiler:
   * `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
