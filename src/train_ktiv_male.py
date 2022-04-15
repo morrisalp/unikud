@@ -6,9 +6,11 @@ from models import KtivMaleModel
 from transformers import CanineTokenizer, TrainingArguments, Trainer
 import torch
 
+OUTPUT_DIR = 'models/ktiv_male'
+
 def parse_arguments():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--output_dir', type=str, default='models/ktiv_male', help='Save directory for model')
+    parser.add_argument('--output_dir', type=str, default=OUTPUT_DIR, help='Save directory for model')
     parser.add_argument('--num_train_epochs', type=int, default=3, help='Number of train epochs')
     parser.add_argument('--per_device_train_batch_size', type=int, default=32, help='Train batch size')
     parser.add_argument('--per_device_eval_batch_size', type=int, default=32, help='Validation batch size')
@@ -52,6 +54,10 @@ def main():
 
     print(f'Training... (on device: {device})')
     trainer.train()
+    
+    SAVE_DIR = f'{OUTPUT_DIR}/latest'
+    print(f'Saving to: {SAVE_DIR}')
+    trainer.save_model(f'{SAVE_DIR}')
 
     print('Done')
 
