@@ -1,5 +1,6 @@
 from hebrew_utils import NIKUD, YUD, VAV
 from tqdm.auto import tqdm
+import numpy as np
 
 class KtivMaleTask:
 
@@ -9,7 +10,7 @@ class KtivMaleTask:
 
         self.device = device
 
-    def _nikud2male_word(self, word):
+    def _nikud2male_word(self, word, sample=False, sample_thresh=0.1):
         
         if len(word) < 2:
             return ''.join([c for c in word if c not in NIKUD])
@@ -17,28 +18,44 @@ class KtivMaleTask:
         
         X = self.tokenizer(word, return_tensors='pt')
         X = X.to(self.device)
-        preds = self.model(**X).logits.argmax(-1)[0].cpu().numpy()
+        logits = self.model(**X).logits.detach()
         
-        output = ''
-        
-        for c, L in zip(word, preds[1:]):
-            if L == 1:
-                output += YUD
-            if L == 2:
-                output += VAV
-            if c not in NIKUD:
-                output += c
-        
-        return output
+        if sample:
+            probs = logits.softmax(axis=-1)[0].cpu().numpy()
+            
+            # remove probabilities under sample_thresh and normalize
+            probs = np.where(probs < 0.1, 0, probs)
+            probs /= probs.sum(axis=-1)[:, None]
+            
+            output = ''
+            for c, P in zip(word, probs[1:]):
+                if c not in NIKUD:
+                    output += np.random.choice(['', YUD, VAV], p=P)
+                    output += c
 
-    def nikud2male(self, text, split=False, pbar=False):
+            return output
+            
+        else:
+            preds = logits.argmax(-1)[0].cpu().numpy()
+            output = ''
+            for c, L in zip(word, preds[1:]):
+                if L == 1:
+                    output += YUD
+                if L == 2:
+                    output += VAV
+                if c not in NIKUD:
+                    output += c
+
+            return output
+
+    def nikud2male(self, text, split=False, pbar=False, sample=False, sample_thresh=0.1):
         """
         text: Hebrew text with nikud
         returns: Hebrew text in ktiv male without nikud
         """
         words = text.split(' ') if split else [text]
         outputs = [
-            self._nikud2male_word(word)
+            self._nikud2male_word(word, sample=sample, sample_thresh=sample_thresh)
             for word in (tqdm(words) if pbar else words)
         ]
         return ' '.join(outputs)
