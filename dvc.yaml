@@ -10,3 +10,10 @@ stages:
     outs:
     - data/processed/ktiv_male.csv
     - data/processed/nikud.csv
+  train-ktiv-male:
+    cmd: python src/train_ktiv_male.py
+    deps:
+    - data/processed/ktiv_male.csv
+    - src/train_ktiv_male.py
+    outs:
+    - models/ktiv_male
