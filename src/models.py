@@ -70,5 +70,5 @@ class UnikudModel(CaninePreTrainedModel):
 
 if __name__ == '__main__':
 
-    mh_model = KtivMaleModel.from_pretrained("google/canine-c", num_labels=3)
+    km_model = KtivMaleModel.from_pretrained("google/canine-c", num_labels=3)
     u_model = UnikudModel.from_pretrained("google/canine-c")

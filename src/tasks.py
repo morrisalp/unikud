@@ -44,8 +44,8 @@ if __name__ == '__main__':
     model = KtivMaleModel.from_pretrained("google/canine-c", num_labels=3)
 
     print('Loading task')
-    mh_task = KtivMaleTask(tokenizer, model)
+    km_task = KtivMaleTask(tokenizer, model)
     print('Task loaded')
     text = 'אָבִיב הוֹלֵךְ וּבָא אִתּוֹ רַק אֹשֶׁר וְשִׂמְחָה'
     print(text)
-    print(mh_task.nikud2male(text))
+    print(km_task.nikud2male(text))
