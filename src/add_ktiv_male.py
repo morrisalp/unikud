@@ -4,6 +4,7 @@ from transformers import CanineTokenizer
 import pandas as pd
 import torch
 from tqdm.auto import tqdm
+import logging
 
 MODEL_FN =  'models/ktiv_male/latest'
 DATA_FN = 'data/processed/nikud.csv'
@@ -23,7 +24,8 @@ def combined_text_gen(df, max_len = 2000):
             out = text
     if out != '':
         yield out
-
+    
+        
 def main():
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -49,9 +51,21 @@ def main():
     })
     
     print('Adding ktiv male to text...')
+    
+    def safe_nikud2male(text):
+        output = ''
+        try:
+            output = task.nikud2male(text, split=True, sample=True)
+        except KeyboardInterrupt:
+            raise KeyboardInterrupt
+        except Exception as e:
+            logging.warning(f'Could not parse text: {text}')
+            logging.warning(e)
+        return output
+    
     tqdm.pandas(desc='Generating ktiv male')
     df['male'] = df.haser.progress_apply(lambda text: task.nikud2male(text, split=True, sample=True))
-
+    df = df[df.male != ''].copy()
     
     print(f'Saving to: {SAVE_FN}')
     df.to_csv(SAVE_FN, index=False)
