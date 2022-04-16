@@ -116,14 +116,16 @@ class NikudCollator:
     def collate(self, batch):
         male_texts = [male for haser, male in batch]
         raw_targets = [haser_male2target(haser, male) for haser, male in batch]
-        toks = self.tokenizer(male_texts, padding='longest', truncation=True, return_tensors='pt')
-        LEN = len(toks.input_ids[0]) # includes [CLS] & [SEP]
+        X = self.tokenizer(male_texts, padding='longest', truncation=True, return_tensors='pt')
+        LEN = len(X.input_ids[0]) # includes [CLS] & [SEP]
         
         def pad_target(tgt):
             N_PADDING = max(0, 1 + LEN - tgt.shape[0] - 2)
             return np.pad(tgt, ((1, N_PADDING), (0, 0)))[:LEN]
         
-        return toks, torch.tensor(np.stack([pad_target(t) for t in raw_targets])).float()
+        y = torch.tensor(np.stack([pad_target(t) for t in raw_targets])).float()
+
+        return {**X, 'labels': y}
 
 
 if __name__ == '__main__':
@@ -157,3 +159,5 @@ if __name__ == '__main__':
 
     outn = nc.collate(batchn)
     print(outn)
+    for k in outn:
+        print(k, outn[k].shape)

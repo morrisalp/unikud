@@ -13,7 +13,8 @@ class UnikudModel(CaninePreTrainedModel):
     # based on CaninePreTrainedModel
     # slightly modified for multilabel classification
     
-    def __init__(self, config, num_labels=len(NIKUD)):
+    def __init__(self, config, num_labels=(len(NIKUD) + 1)):
+        # Note: one label for each nikud type, plus one for the deletion flag
         super().__init__(config)
         config.num_labels = num_labels
         self.num_labels = config.num_labels
