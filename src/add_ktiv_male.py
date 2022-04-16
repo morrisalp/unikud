@@ -50,7 +50,7 @@ def main():
     
     print('Adding ktiv male to text...')
     tqdm.pandas(desc='Generating ktiv male')
-    df['male'] = df.haser.progress_apply(lambda text: task.nikud2male(text, split=True))
+    df['male'] = df.haser.progress_apply(lambda text: task.nikud2male(text, split=True, sample=True))
 
     
     print(f'Saving to: {SAVE_FN}')
