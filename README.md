@@ -45,3 +45,5 @@ To reproduce the training pipeline, perform the following steps:
   * `dvc repro add-ktiv-male`
 
 Training steps will automatically log to MLflow (via the Huggingface Trainer object) if the following environment variables are set: `MLFLOW_TRACKING_URI`, `MLFLOW_TRACKING_USERNAME`, `MLFLOW_TRACKING_PASSWORD`.
+
+Scripts will automatically use GPU when available. If you want to run on CPU, set the environment variable `CUDA_VISIBLE_DEVICES` to be empty (`export CUDA_VISIBLE_DEVICES=`).
