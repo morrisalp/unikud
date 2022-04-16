@@ -39,3 +39,20 @@ stages:
       md5: 96c4c3f9c72286a6541d6ee8ce421564.dir
       size: 528576758
       nfiles: 3
+  add-ktiv-male:
+    cmd: python src/add_ktiv_male.py
+    deps:
+    - path: data/processed/nikud.csv
+      md5: 47b0ed9af1cc818cb964027d5240fbd2
+      size: 73741972
+    - path: models/ktiv_male
+      md5: 96c4c3f9c72286a6541d6ee8ce421564.dir
+      size: 528576758
+      nfiles: 3
+    - path: src/add_ktiv_male.py
+      md5: c9321d5174ad157c952d61c25ccfd85f
+      size: 2099
+    outs:
+    - path: data/processed/nikud_with_ktiv_male.csv
+      md5: e74c2b69d63b810f733b6338d637bcf0
+      size: 117197043

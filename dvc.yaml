@@ -17,3 +17,11 @@ stages:
     - src/train_ktiv_male.py
     outs:
     - models/ktiv_male
+  add-ktiv-male:
+    cmd: python src/add_ktiv_male.py
+    deps:
+    - data/processed/nikud.csv
+    - models/ktiv_male
+    - src/add_ktiv_male.py
+    outs:
+    - data/processed/nikud_with_ktiv_male.csv
