@@ -44,16 +44,17 @@ def main():
     task = KtivMaleTask(tokenizer, model, device=device)
 
     print('Combining texts into larger units...')
-    texts = pd.Series(t for t in tqdm(combined_text_gen(df)))
-    del df
+    df = pd.DataFrame({
+        'haser': [t for t in tqdm(combined_text_gen(df))]
+    })
     
     print('Adding ktiv male to text...')
     tqdm.pandas(desc='Generating ktiv male')
-    texts = texts.progress_apply(lambda text: task.nikud2male(text, split=True))
+    df['male'] = df.haser.progress_apply(lambda text: task.nikud2male(text, split=True))
 
     
     print(f'Saving to: {SAVE_FN}')
-    texts.to_csv(SAVE_FN, index=False)
+    df.to_csv(SAVE_FN, index=False)
 
 
 if __name__ == '__main__':
