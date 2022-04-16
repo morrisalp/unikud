@@ -12,16 +12,8 @@ class KtivMaleTask:
 
     def _nikud2male_word(self, word, logits, sample=False, sample_thresh=0.1):
         
-        if len(word) < 2:
-            return ''.join([c for c in word if c not in NIKUD])
-            # ^ Needed because model throws error when input is too small
-        
-        X = self.tokenizer(word, return_tensors='pt')
-        X = X.to(self.device)
-        logits = self.model(**X).logits.detach()
-        
         if sample:
-            probs = logits.softmax(axis=-1)[0].cpu().numpy()
+            probs = logits.softmax(axis=-1).cpu().numpy()
             
             # remove probabilities under sample_thresh and normalize
             probs = np.where(probs < 0.1, 0, probs)
@@ -36,7 +28,7 @@ class KtivMaleTask:
             return output
             
         else:
-            preds = logits.argmax(-1)[0].cpu().numpy()
+            preds = logits.argmax(axis=-1).cpu().numpy()
             output = ''
             for c, L in zip(word, preds[1:]):
                 if L == 1:
@@ -49,11 +41,18 @@ class KtivMaleTask:
             return output
 
     def _nikud2male_batch(self, batch, **kwargs):
-        X = self.tokenizer(batch, return_tensors='pt', padding=True, truncation=True).to(self.device)
-        logits = self.model(**X).logits.detach()
         
-        for i, word in enumerate(batch):
-            yield self._nikud2male_word(word, logits[i], **kwargs)
+        # if all words in batch are too small, model cannot process them so just return unchanged
+        if all(len(word) <= 1 for word in batch):
+            for word in batch:
+                yield ''.join([c for c in word if c not in NIKUD])
+        
+        else:
+            X = self.tokenizer(batch, return_tensors='pt', padding=True, truncation=True).to(self.device)
+            logits = self.model(**X).logits.detach()
+
+            for i, word in enumerate(batch):
+                yield self._nikud2male_word(word, logits[i], **kwargs)
 
     def nikud2male(self, text, split=False, pbar=False, sample=False, sample_thresh=0.1, batch_size=64):
         """
