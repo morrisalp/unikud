@@ -155,7 +155,7 @@ if __name__ == '__main__':
     print(km_task.nikud2male(text, split=True, pbar=True))
     
     print('Loading UNIKUD model')
-    model = UnikudModel.from_pretrained("google/canine-c", num_labels=3)
+    model = UnikudModel.from_pretrained("google/canine-c")
     
     print('Loading nikud task')
     n_task = NikudTask(tokenizer, model)
