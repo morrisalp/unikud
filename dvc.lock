@@ -63,10 +63,10 @@ stages:
       md5: e74c2b69d63b810f733b6338d637bcf0
       size: 117197043
     - path: src/train_unikud.py
-      md5: 695b90c65cce2365ee867f0c19e3ff98
-      size: 2731
+      md5: 76ca2db065edcc55d1298f53464baa27
+      size: 2732
     outs:
     - path: models/unikud
-      md5: fd7b5e2f2d418dd257d1efca05ccfa1e.dir
+      md5: 143686fc705cd294298515abf43de44f.dir
       size: 528614160
       nfiles: 3
