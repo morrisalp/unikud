@@ -11,7 +11,7 @@ OUTPUT_DIR = 'models/unikud'
 def parse_arguments():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--output_dir', type=str, default=OUTPUT_DIR, help='Save directory for model')
-    parser.add_argument('--num_train_epochs', type=int, default=3, help='Number of train epochs')
+    parser.add_argument('--num_train_epochs', type=int, default=10, help='Number of train epochs')
     parser.add_argument('--per_device_train_batch_size', type=int, default=2, help='Train batch size')
     parser.add_argument('--gradient_accumulation_steps', type=int, default=16, help='Gradient accumulation steps (train)')
     parser.add_argument('--per_device_eval_batch_size', type=int, default=2, help='Validation batch size')
