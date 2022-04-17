@@ -56,3 +56,17 @@ stages:
     - path: data/processed/nikud_with_ktiv_male.csv
       md5: e74c2b69d63b810f733b6338d637bcf0
       size: 117197043
+  train-unikud:
+    cmd: python src/train_unikud.py
+    deps:
+    - path: data/processed/nikud_with_ktiv_male.csv
+      md5: e74c2b69d63b810f733b6338d637bcf0
+      size: 117197043
+    - path: src/train_unikud.py
+      md5: 695b90c65cce2365ee867f0c19e3ff98
+      size: 2731
+    outs:
+    - path: models/unikud
+      md5: fd7b5e2f2d418dd257d1efca05ccfa1e.dir
+      size: 528614160
+      nfiles: 3

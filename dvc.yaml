@@ -25,3 +25,10 @@ stages:
     - src/add_ktiv_male.py
     outs:
     - data/processed/nikud_with_ktiv_male.csv
+  train-unikud:
+    cmd: python src/train_unikud.py
+    deps:
+    - data/processed/nikud_with_ktiv_male.csv
+    - src/train_unikud.py
+    outs:
+    - models/unikud
