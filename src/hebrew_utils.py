@@ -31,6 +31,15 @@ EXTENDED_NIKUD = {chr(i) for i in range(NIKUD_START_ORD, NIKUD_END_ORD + 1)}
 # Nikud: ordinary nikud that we add to texts
 NIKUD = {c for c in EXTENDED_NIKUD if ord(c) not in SPECIAL_ORDS}
 
+N_VOWELS = len(NIKUD) - 3 # not including dagesh, shin dot, sin dot
+
+idx2chr = dict()
+j = 0
+for i in range(NIKUD_START_ORD, NIKUD_END_ORD + 1):
+    if i not in SPECIAL_ORDS:
+        idx2chr[j] = chr(i)
+        j += 1
+
 def strip_nikud(s):
     if type(s) is str:
         out = s
