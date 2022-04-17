@@ -6,7 +6,7 @@ from models import UnikudModel
 from transformers import CanineTokenizer, TrainingArguments, Trainer
 import torch
 
-OUTPUT_DIR = 'models/unikud'
+OUTPUT_DIR = 'models/unikud/latest'
 
 def parse_arguments():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -56,9 +56,8 @@ def main():
     print(f'Training... (on device: {device})')
     trainer.train()
     
-    SAVE_DIR = f'{OUTPUT_DIR}/latest'
-    print(f'Saving to: {SAVE_DIR}')
-    trainer.save_model(f'{SAVE_DIR}')
+    print(f'Saving to: {OUTPUT_DIR}')
+    trainer.save_model(f'{OUTPUT_DIR}')
 
     print('Done')
 
