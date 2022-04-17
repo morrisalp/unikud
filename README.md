@@ -6,13 +6,22 @@ If you are accessing this repo via GitHub, please see the [project page on DAGSH
 
 We provide a short description of UNIKUD here. For more information, please see the article: (TBD)
 
-![How data is used to train UNIKUD](img/training.png "How data is used to train UNIKUD")
+<p align="center">
+<img src="img/training.png" width="70%" height="70%" alt="How data is used to train UNIKUD">
+</p>
+
 *How Hebrew text with vowels is used to train UNIKUD. The text with vowels removed is used as the model's input, and the original text with vowels is used as the target (what we are trying to predict).*
 
-![Illustration of full spellings in Hebrew](img/ktiv-male.png "Illustration of full spellings in Hebrew")
+<p align="center">
+<img src="img/ktiv-male.png" width="30%" height="30%" alt="Illustration of full spellings in Hebrew">
+</p>
+
 *"Ktiv male" (full spelling): The red letter is only used without vowels.*
 
-![Illustration of one-hot encoded target](img/ohe.png "Illustration of one-hot encoded target")
+<p align="center">
+<img src="img/ohe.png" width="70%" height="70%" alt="Illustration of one-hot encoded target">
+</p>
+
 *Hebrew vocalization as multilabel classification: Each Hebrew letter may be decorated with multiple "nikud", which can be represented as a one-hot (binary) vector. UNIKUD uses this one-hot encoding as its target. The figure is condensed for clarity but UNIKUD's one-hot targets actually contain 15 entries.*
 
 # Requirements
