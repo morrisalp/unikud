@@ -15,7 +15,7 @@ def ktiv_male_metrics(eval_preds):
     probs = softmax(logits, axis=-1)
     preds = probs.argmax(axis=-1)
 
-    accuracy = (labels == preds).all(axis=-1).mean()
+    accuracy = (labels == preds).mean()
     macro_f1 = f1_score(labels, preds, average='macro')
 
     return {
