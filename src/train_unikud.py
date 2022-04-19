@@ -3,6 +3,7 @@ from typing import Optional
 import argparse
 from datasets import NikudDataset, NikudCollator
 from models import UnikudModel
+from metrics import unikud_metrics
 from transformers import CanineTokenizer, TrainingArguments, Trainer
 import torch
 
@@ -53,6 +54,7 @@ def main():
         train_dataset=train_dataset,
         eval_dataset=eval_dataset,
         data_collator=collator.collate,
+        compute_metrics=unikud_metrics
     )
 
     print(f'Training... (on device: {device})')

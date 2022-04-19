@@ -3,6 +3,7 @@ from typing import Optional
 import argparse
 from datasets import KtivMaleDataset, KtivMaleCollator
 from models import KtivMaleModel
+from metrics import ktiv_male_metrics
 from transformers import CanineTokenizer, TrainingArguments, Trainer
 import torch
 
@@ -50,6 +51,7 @@ def main():
         train_dataset=train_dataset,
         eval_dataset=eval_dataset,
         data_collator=collator.collate,
+        compute_metrics=ktiv_male_metrics
     )
 
     print(f'Training... (on device: {device})')
