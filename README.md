@@ -101,6 +101,10 @@ To add nikud to unvocalized Hebrew text:
     text = 'זאת דוגמא של טקסט לא מנוקד בעברית'
     print(task.add_nikud(text))
 
+# Contributing
+
+Please file an issue on this project's DagsHub or GitHub repo pages to report bugs or suggest improvements.
+
 # Other Links
 * [HF Hub model page: malper/unikud](https://huggingface.co/malper/unikud)
 * [HF Spaces deployment](https://huggingface.co/spaces/malper/unikud)
