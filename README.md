@@ -26,6 +26,24 @@ We provide a short description of UNIKUD here. For more information, please see 
 
 # Requirements
 
+## Inference only
+
+Install the UNIKUD framework PyPI package via pip:
+
+    pip install unikud
+
+You may then add nikud to Hebrew text as follows:
+
+    from unikud.framework import Unikud
+
+    u = Unikud() # installs required files
+
+    print(u('שלום חברים'))
+
+Note: `Unikud()` takes optional keyword argument `device=` for CPU/GPU inference. `Unikud.__call__` takes optional keyword arguments to adjust decoding hyperparameters.
+
+## For training
+
 First install:
 
 * Conda
