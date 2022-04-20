@@ -6,11 +6,15 @@ If you are accessing this repo via GitHub, please see the [project page on DAGSH
 
 We provide a short description of UNIKUD here. For more information, please see the article: (TBD)
 
+UNIKUD is an open-source tool for adding vowel signs (*nikud*) to Hebrew text with deep learning, using absolutely no rule-based logic.  UNIKUD uses Google's CANINE transformer model as its backbone, and treats text vocalization as a character token multilabel classificatino problem.
+
 <p align="center">
 <img src="img/training.png" width="70%" height="70%" alt="How data is used to train UNIKUD">
 </p>
 
 *How Hebrew text with vowels is used to train UNIKUD. The text with vowels removed is used as the model's input, and the original text with vowels is used as the target (what we are trying to predict).*
+
+UNIKUD's training data requires preprocessing, because texts in Hebrew without vowel marks may be written using "full spelling" (כתיב מלא) where extra letters are occasionally added to words:
 
 <p align="center">
 <img src="img/ktiv-male.png" width="30%" height="30%" alt="Illustration of full spellings in Hebrew">
@@ -18,11 +22,15 @@ We provide a short description of UNIKUD here. For more information, please see 
 
 *"Ktiv male" (full spelling): The red letter is only used without vowels.*
 
+The core UNIKUD model uses a multilabel classification head as shown below:
+
 <p align="center">
 <img src="img/ohe.png" width="70%" height="70%" alt="Illustration of one-hot encoded target">
 </p>
 
 *Hebrew vocalization as multilabel classification: Each Hebrew letter may be decorated with multiple "nikud", which can be represented as a one-hot (binary) vector. UNIKUD uses this one-hot encoding as its target. The figure is condensed for clarity but UNIKUD's one-hot targets actually contain 15 entries.*
+
+See the "Experiments" tab on the UNIKUD DagsHub repository page for training and evaluation metrics.
 
 # Requirements
 
@@ -31,16 +39,6 @@ We provide a short description of UNIKUD here. For more information, please see 
 Install the UNIKUD framework PyPI package via pip:
 
     pip install unikud
-
-You may then add nikud to Hebrew text as follows:
-
-    from unikud.framework import Unikud
-
-    u = Unikud() # installs required files
-
-    print(u('שלום חברים'))
-
-Note: `Unikud()` takes optional keyword argument `device=` for CPU/GPU inference. `Unikud.__call__` takes optional keyword arguments to adjust decoding hyperparameters.
 
 ## For training
 
@@ -92,14 +90,15 @@ Scripts will automatically use GPU when available. If you want to run on CPU, se
 
 # Inference
 
-To add nikud to unvocalized Hebrew text:
+If you installed UNIKUD via pip, you may add nikud to Hebrew text as follows:
 
-    tokenizer = CanineTokenizer.from_pretrained("google/canine-c")
-    model = UnikudModel.from_pretrained('models/unikud/latest')
-    task = NikudTask(tokenizer, model)
-    
-    text = 'זאת דוגמא של טקסט לא מנוקד בעברית'
-    print(task.add_nikud(text))
+    from unikud.framework import Unikud
+
+    u = Unikud() # installs required files
+
+    print(u('שלום חברים'))
+
+Note: `Unikud()` takes optional keyword argument `device=` for CPU/GPU inference. `Unikud.__call__` takes optional keyword arguments to adjust decoding hyperparameters.
 
 # Contributing
 
