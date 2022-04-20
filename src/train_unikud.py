@@ -18,7 +18,6 @@ def parse_arguments():
     parser.add_argument('--per_device_eval_batch_size', type=int, default=2, help='Validation batch size')
     parser.add_argument('--save_strategy', type=str, default='no', help='Whether to save on every epoch ("epoch"/"no")')
     parser.add_argument('--learning_rate',  type=float, default=5e-5, help='Learning rate')
-    parser.add_argument('--warmup_ratio',  type=float, default=0, help='Warmup ratio')
     parser.add_argument('--lr_scheduler_type',  type=str, default='linear', help='Learning rate scheduler type ("linear"/"cosine"/"constant"/...')
     parser.add_argument('--warmup_ratio',  type=float, default=0.0, help='Warmup ratio')
     parser.add_argument('--adam_beta1', type=float, default=0.9, help='AdamW beta1 hyperparameter')
