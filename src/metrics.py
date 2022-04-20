@@ -2,7 +2,7 @@
 from scipy.special import softmax, expit as sigmoid
 from sklearn.metrics import f1_score
 
-def ktiv_male_metrics(eval_preds):
+def ktiv_male_metrics(eval_preds, padding_idx=-100):
     logits, labels = eval_preds
     # shape of logits: (n_samples, n_chars, n_labels=3)
     # shape of labels: (n_samples, n_chars)
@@ -11,6 +11,10 @@ def ktiv_male_metrics(eval_preds):
     n_labels = logits.shape[-1]
     logits = logits.reshape(-1, n_labels)
     labels = labels.reshape(-1)
+
+    mask = (labels != padding_idx)
+    logits = logits[mask]
+    labels = labels[mask]
 
     probs = softmax(logits, axis=-1)
     preds = probs.argmax(axis=-1)
