@@ -52,19 +52,8 @@ def main():
     
     print('Adding ktiv male to text...')
     
-    def safe_nikud2male(text):
-        output = ''
-        try:
-            output = task.nikud2male(text, split=True, sample=True)
-        except KeyboardInterrupt:
-            raise KeyboardInterrupt
-        except Exception as e:
-            logging.warning(f'Could not parse text: {text}')
-            logging.warning(e)
-        return output
-    
     tqdm.pandas(desc='Generating ktiv male')
-    df['male'] = df.haser.progress_apply(lambda text: task.nikud2male(text, split=True, sample=True))
+    df['male'] = df.haser.progress_apply(lambda text: task.nikud2male(text, split=True, sample=False))
     df = df[df.male != ''].copy()
     
     print(f'Saving to: {SAVE_FN}')
