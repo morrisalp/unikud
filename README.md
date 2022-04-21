@@ -44,15 +44,17 @@ Install the UNIKUD framework PyPI package via pip:
 
 First install:
 
-* Conda
 * Rust compiler:
   * `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
   * Reopen shell or run `source $HOME/.cargo/env`
 
-Then create and activate the UNIKUD environment with:
+Then install requirements for UNIKUD and activate its environment with either of:
 
-* `conda env create -f environment.yml`
-* `conda activate unikud`
+* Conda (recommended):
+  * `conda env create -f environment.yml`
+  * `conda activate unikud`
+* Pip:
+  * `pip install -r requirements.txt`
 
 You may then download the required data files using DVC:
 
