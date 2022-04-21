@@ -23,7 +23,7 @@ stages:
       md5: 2e974ab9f7bba306921ddfbecae7277e
       size: 2594639
     - path: data/processed/nikud.csv
-      md5: 47b0ed9af1cc818cb964027d5240fbd2
+      md5: 83538149a2d7b09351de249d9c07bf97
       size: 73741972
   train-ktiv-male:
     cmd: python src/train_ktiv_male.py
@@ -32,41 +32,41 @@ stages:
       md5: 2e974ab9f7bba306921ddfbecae7277e
       size: 2594639
     - path: src/train_ktiv_male.py
-      md5: ff19709e94b8871a758d739658206ae8
-      size: 2646
+      md5: 0d46eb12491b1417f23db9ab16dade3a
+      size: 2935
     outs:
     - path: models/ktiv_male
-      md5: 96c4c3f9c72286a6541d6ee8ce421564.dir
+      md5: 77a7fe3e58a9c55c16476185af331472.dir
       size: 528576758
       nfiles: 3
   add-ktiv-male:
     cmd: python src/add_ktiv_male.py
     deps:
     - path: data/processed/nikud.csv
-      md5: 47b0ed9af1cc818cb964027d5240fbd2
+      md5: 83538149a2d7b09351de249d9c07bf97
       size: 73741972
     - path: models/ktiv_male
-      md5: 96c4c3f9c72286a6541d6ee8ce421564.dir
+      md5: 77a7fe3e58a9c55c16476185af331472.dir
       size: 528576758
       nfiles: 3
     - path: src/add_ktiv_male.py
-      md5: c9321d5174ad157c952d61c25ccfd85f
-      size: 2099
+      md5: 07cb653d288a6b220b538d6c48e06411
+      size: 1748
     outs:
     - path: data/processed/nikud_with_ktiv_male.csv
-      md5: e74c2b69d63b810f733b6338d637bcf0
-      size: 117197043
+      md5: 54df6e01eb9cf09ba42f62779abc9c55
+      size: 117166103
   train-unikud:
     cmd: python src/train_unikud.py
     deps:
     - path: data/processed/nikud_with_ktiv_male.csv
-      md5: e74c2b69d63b810f733b6338d637bcf0
-      size: 117197043
+      md5: 54df6e01eb9cf09ba42f62779abc9c55
+      size: 117166103
     - path: src/train_unikud.py
-      md5: 76ca2db065edcc55d1298f53464baa27
-      size: 2732
+      md5: 6ffe748cf64064aef64d46fa6a069aaa
+      size: 3016
     outs:
     - path: models/unikud
-      md5: 143686fc705cd294298515abf43de44f.dir
+      md5: 2b55b445a3a646f31c8ec6e856a80182.dir
       size: 528614160
       nfiles: 3
