@@ -24,7 +24,7 @@ def parse_arguments():
     parser.add_argument('--adam_beta2', type=float, default=0.999, help='AdamW beta2 hyperparameter')
     parser.add_argument('--weight_decay', type=float, default=0.0, help='Weight decay')
     parser.add_argument('--evaluation_strategy', type=str, default='steps', help='How to validate (set to "no" for no validation)')
-    parser.add_argument('--eval_steps', type=int, default=1000, help='Validate every N steps')
+    parser.add_argument('--eval_steps', type=int, default=2000, help='Validate every N steps')
     return parser.parse_args()
 
 
