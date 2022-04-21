@@ -2,7 +2,7 @@ from random import random
 import torch
 from torch.utils.data import Dataset
 import pandas as pd
-from hebrew_utils import NIKUD, strip_nikud, YUD, VAV, YV, haser_male2target
+from hebrew_utils import NIKUD, YUD, VAV, YV, haser_male2target
 import numpy as np
 
 def make_male_labels(text_n, text_non):
@@ -83,7 +83,7 @@ class KtivMaleCollator:
 
 class NikudDataset(Dataset):
 
-    def __init__(self, fn='./data/processed/nikud.csv', split=None, val_size=0.1):
+    def __init__(self, fn='./data/processed/nikud_with_ktiv_male.csv', split=None, val_size=0.1):
         self.df = pd.read_csv(fn)
         # random shuffle (with fixed seed) so val split is not biased:
         self.df = self.df.sample(self.df.shape[0], random_state=0)
@@ -103,8 +103,8 @@ class NikudDataset(Dataset):
     def __getitem__(self, idx):
         row = self.df.iloc[idx]
 
-        haser = row.text # ktiv haser: has nikud
-        male = strip_nikud(row.text) # ktiv male: no nikud
+        haser = row.haser # ktiv haser: has nikud
+        male = row.male # ktiv male: no nikud
         
         return haser, male
 
