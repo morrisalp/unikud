@@ -4,7 +4,7 @@ If you are accessing this repo via GitHub, please see the [project page on DAGSH
 
 # Description
 
-We provide a short description of UNIKUD here. For more information, please see the article: (TBD)
+We provide a short description of UNIKUD here. For more information, please see the article: [UNIKUD: Adding Vowels to Hebrew Text with Deep Learning](https://towardsdatascience.com/unikud-adding-vowels-to-hebrew-text-with-deep-learning-powered-by-dagshub-56d238e22d3f).
 
 UNIKUD is an open-source tool for adding vowel signs (*nikud*) to Hebrew text with deep learning, using absolutely no rule-based logic.  UNIKUD uses Google's CANINE transformer model as its backbone, and treats text vocalization as a character token multilabel classification problem.
 
