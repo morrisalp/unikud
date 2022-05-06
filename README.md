@@ -71,8 +71,6 @@ Sources of data:
   * [Hebrew Wikisource](https://he.wikisource.org/) (ויקיטקסט)
   * [Hebrew Wiktionary](https://he.wiktionary.org/) (ויקימילון)
 
-To preprocess data, run:
-
 # Training
 
 To reproduce the training pipeline, perform the following steps:
