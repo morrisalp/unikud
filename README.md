@@ -25,10 +25,10 @@ UNIKUD's training data requires preprocessing, because texts in Hebrew without v
 The core UNIKUD model uses a multilabel classification head as shown below:
 
 <p align="center">
-<img src="img/ohe.png" width="70%" height="70%" alt="Illustration of one-hot encoded target">
+<img src="img/ohe.png" width="70%" height="70%" alt="Illustration of label-encoded target">
 </p>
 
-*Hebrew vocalization as multilabel classification: Each Hebrew letter may be decorated with multiple "nikud", which can be represented as a one-hot (binary) vector. UNIKUD uses this one-hot encoding as its target. The figure is condensed for clarity but UNIKUD's one-hot targets actually contain 15 entries.*
+*Hebrew vocalization as multilabel classification: Each Hebrew letter may be decorated with multiple nikud, which can be represented as a binary vector. UNIKUD uses this label encoding as its target. The figure is condensed for clarity but UNIKUD's binary targets actually contain 15 entries.*
 
 See the "Experiments" tab on the UNIKUD DagsHub repository page for training and evaluation metrics.
 
